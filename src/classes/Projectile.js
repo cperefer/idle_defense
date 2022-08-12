@@ -6,9 +6,6 @@ export class Projectile {
     constructor({position, target}) {
         this.position = position;
         this.target = target;
-
-        console.log(this.target.position);
-        console.log(this.position);
     }
 
     draw() {
