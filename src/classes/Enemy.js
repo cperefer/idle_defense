@@ -1,30 +1,34 @@
-import { canvas, ctx } from "../helpers/state.js";
-import { config, center } from "../config/Config.js";
+import { ctx } from "../helpers/state.js";
+import { ENEMY, center } from "../config/config.js";
 
 export class Enemy {
-    constructor({position, type}) {
+    constructor({position, type, speed}) {
         this.position = position;
         this.type = type;
-        this.size = config.ENEMY[this.type].SIZE;
-        this.speed = config.ENEMY[this.type].SPEED;
-        this.hp = config.ENEMY[this.type].HP;
-
-        this.targetMovement = {
-            x: center.X - this.position.x,
-            y: center.Y - this.position.y,
+        this.size = ENEMY[this.type].SIZE;
+        // this.speed = ENEMY[this.type].SPEED;
+        this.speed = {
+            x: this.position.x - center.x,
+            y: this.position.y - center.y,
+        };
+        this.hp = ENEMY[this.type].HP;
+        this.velocity = {
+            x: 0,
+            y: 0,
         };
 
-        // console.log(this.targetMovement);
+        console.log(this.speed);
     }
 
-    draw = () => {
+    draw() {
         ctx.fillStyle = 'white';
         ctx.fillRect(this.position.x, this.position.y, this.size, this.size)
     }
 
-    update = () => {
-        this.position.x += this.speed;
-        this.position.y += this.speed;
+    update() {
         this.draw();
+
+        this.position.x -= this.speed.x / 100;
+        this.position.y -= this.speed.y / 100;
     }
 }

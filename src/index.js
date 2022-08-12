@@ -1,18 +1,18 @@
-import { config, center } from "./config/Config.js";
-import { canvas, ctx } from "./helpers/state.js";
+import { config, center, TURRET } from "./config/config.js";
+import { canvas, ctx, arrayEnemies, arrayProjectiles } from "./helpers/state.js";
 import { Turret } from "./classes/Turret.js";
 import { Enemy } from "./classes/Enemy.js";
 
 let player,
-    arrayEnemies = [];
+    numWave = 1;
 
 function initialize() {
     canvas.width = config.CANVAS.WIDTH;
     canvas.height = config.CANVAS.HEIGHT;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    const centerX = center.X;
-    const centerY = center.Y;
+    const centerX = center.x;
+    const centerY = center.y;
     const radius = 20;
 
     player = new Turret({
@@ -20,31 +20,36 @@ function initialize() {
         size: radius
     });
 
-    const enemy = new Enemy({
-        position: {x: 300, y: 300},
-        type: 'REGULAR',
-    });
+    spawnEnemiesRandomly();
     // const enemy = new Enemy({
-    //     position: {x: 100, y: 100},
+    //     position: {
+    //         x: 800,
+    //         y: 100,
+    //     },
     //     type: 'REGULAR',
     // });
 
-    arrayEnemies.push(enemy);
+    // arrayEnemies.push(enemy);
     
-    player.draw();
-    enemy.draw();
-
     animate();
 }
 
 function animate() {
-    requestAnimationFrame(animate());
+    const animationId = requestAnimationFrame(animate);
     clearCanvas();
-    player.update(arrayEnemies);
-    // for (const enemy in arrayEnemies) {
-    //     arrayEnemies[enemy].update();
-    // }
-    arrayEnemies[0].draw()
+    player.update();
+    arrayEnemies.forEach((enemy, index) => {
+        enemy.update();
+
+        const xDifference = enemy.position.x - player.position.x;
+        const yDifference = enemy.position.y - player.position.y;
+        const distance = Math.hypot(xDifference, yDifference);
+
+        // Player has been hit
+        if (distance < enemy.size) {
+            arrayEnemies.splice(index, 1);
+        }
+    });
 }
 
 function clearCanvas() {
@@ -52,6 +57,27 @@ function clearCanvas() {
     canvas.style.height = config.CANVAS.HEIGHT;
     ctx.fillStyle = 'black';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
+}
+
+function spawnEnemiesRandomly() {
+    const maxX = center.x + config.MAX_DISTANCE_SPAWN,
+        maxY = center.y + config.MAX_DISTANCE_SPAWN;
+
+    for (let i = 0; i < config.ENEMIES_PER_WAVE * numWave; i++) {
+        const position = {
+            x: Math.random() * (maxX),
+            y: Math.random() * (maxY),
+        }
+
+        config.DEBUG && console.log(position);
+
+        const enemy = new Enemy({
+            position,
+            type: 'REGULAR',
+        });
+
+        arrayEnemies.push(enemy);
+    }
 }
 
 document.addEventListener('DOMContentLoaded', () => initialize());

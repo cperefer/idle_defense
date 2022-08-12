@@ -1,6 +1,5 @@
 import { canvas, ctx } from "../helpers/state.js";
-import { config } from "../config/Config.js";
-import { Shot } from "./Shot.js";
+import { TURRET } from "../config/config.js";
 
 
 export class Turret {
@@ -8,7 +7,7 @@ export class Turret {
         this.position = position;
         this.size = size;
         
-        this.shottingRange = config.TURRET.SHOOTING_RANGE;
+        this.shottingRange = TURRET.SHOOTING_RANGE;
         this.target = {
             position: {
                 x: undefined,
@@ -18,7 +17,7 @@ export class Turret {
         };
     }
 
-    draw = () => {
+    draw() {
         // Build turret
         ctx.beginPath();
         ctx.arc(this.position.x, this.position.y, this.size, 0, 2 * Math.PI, false);
@@ -36,17 +35,7 @@ export class Turret {
         ctx.stroke();
     }
 
-    update = (arrayEnemies) => {
+    update() {
         this.draw();
-
-        // console.log(this.target);
     }
-
-    // shoot = () => {
-    //     // Build turret
-    //     ctx.beginPath();
-    //     ctx.arc(this.position.x, this.position.y, 5, 0, 2 * Math.PI, false);
-    //     ctx.fillStyle = 'white';
-    //     ctx.fill();
-    // }
 }

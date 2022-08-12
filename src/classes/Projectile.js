@@ -1,8 +1,8 @@
 import { canvas, ctx } from "../helpers/state.js";
-import { config } from "../config/Config.js";
+import { config } from "../config/config.js";
 
 
-export class Shot {
+export class Projectile {
     constructor({position, target}) {
         this.position = position;
         this.target = target;
@@ -11,14 +11,14 @@ export class Shot {
         console.log(this.position);
     }
 
-    draw = () => {
+    draw() {
         ctx.beginPath();
         ctx.arc(this.position.x, this.position.y, 5, 0, 2 * Math.PI, false);
         ctx.fillStyle = 'white';
         ctx.fill();
     }
 
-    update = () => {
+    update() {
         this.draw();
     }
 }

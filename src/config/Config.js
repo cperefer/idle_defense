@@ -1,29 +1,36 @@
 const config = {
+    DEBUG: false,
     CANVAS: {
         WIDTH: 800,
         HEIGHT: 800,
     },
-    FPS: 20,
-    TURRET: {
-        SIZE: 20,
-        SHOOTING_RANGE: 175,
-        ATTACK_SPEED: 1,
-    },
-    ENEMY: {
-        REGULAR: {
-            SIZE: 15,
-            SPEED: 5,
-            HP: 10,
-        }
+    ENEMIES_PER_WAVE: 4,
+    MIN_DISTANCE_SPAWN: 200,
+    MAX_DISTANCE_SPAWN: 500,
+};
+
+const TURRET = {
+    SIZE: 20,
+    SHOOTING_RANGE: 175,
+    ATTACK_SPEED: 1,
+};
+
+const ENEMY = {
+    REGULAR: {
+        SIZE: 15,
+        SPEED: 3,
+        HP: 10,
     }
 };
 
 const center = {
-    X: config.CANVAS.WIDTH / 2,
-    Y: config.CANVAS.HEIGHT / 2
+    x: config.CANVAS.WIDTH / 2,
+    y: config.CANVAS.HEIGHT / 2
 }
 
 export {
     config,
-    center
+    center,
+    TURRET,
+    ENEMY
 }
