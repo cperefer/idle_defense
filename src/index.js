@@ -33,10 +33,6 @@ function animate() {
     arrayEnemies.forEach((enemy, index) => {
         enemy.update();
 
-        if (index === 0) {
-            console.log(enemy.position);
-        }
-
         const xDifference = enemy.position.x - player.position.x;
         const yDifference = enemy.position.y - player.position.y;
         const distance = Math.hypot(xDifference, yDifference);
