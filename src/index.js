@@ -1,8 +1,7 @@
 import { config, center, TURRET } from "./config/config.js";
 import { canvas, ctx, arrayEnemies, arrayProjectiles } from "./helpers/state.js";
-import { isInShottingRange, calcDistance } from "./helpers/helpers.js";
+import { isInShottingRange, calcDistance, clearCanvas, createEnemy } from "./helpers/helpers.js";
 import { Turret } from "./classes/Turret.js";
-import { Enemy } from "./classes/Enemy.js";
 import { Projectile } from "./classes/Projectile.js";
 
 let player,
@@ -99,44 +98,13 @@ function animate() {
     }
 }
 
-function clearCanvas() {
-    canvas.style.width = config.CANVAS.WIDTH;
-    canvas.style.height = config.CANVAS.HEIGHT;
-    ctx.fillStyle = 'black';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-}
-
 function spawnEnemiesRandomly() {
-    const maxX = center.x + config.MAX_DISTANCE_SPAWN,
-        maxY = center.y + config.MAX_DISTANCE_SPAWN;
-    
     let numEnemies = 0;
 
     intervalSpawingId = setInterval(() => {
-        console.log(numWave);
-        console.log(config.ENEMIES_PER_WAVE * numWave);
         if (numEnemies < config.ENEMIES_PER_WAVE * numWave) {
             numEnemies++;
-
-            const position = {
-                x: 0,
-                y: 0,
-            };
-            // Generate random position until enemy is not in shooting range
-            do {
-                position.x = Math.random() * (maxX);
-                position.y = Math.random() * (maxY);
-            } while (isInShottingRange(position, center));
-    
-            config.DEBUG && console.log(position);
-            
-            // Think about generating new enemies
-            const enemy = new Enemy({
-                position,
-                type: 'REGULAR',
-            });
-    
-            arrayEnemies.push(enemy);
+            createEnemy();
         } else {
             clearInterval(intervalSpawingId);
         }        
