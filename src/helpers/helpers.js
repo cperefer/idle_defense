@@ -1,5 +1,5 @@
-import { TURRET } from "../config/config.js";
-import { canvas, ctx } from "./state.js";
+import { config, TURRET, center } from "../config/config.js";
+import { arrayEnemies, canvas, ctx } from "./state.js";
 import { Enemy } from "../classes/Enemy.js";
 
 function clearCanvas() {
@@ -45,9 +45,21 @@ function createEnemy() {
     arrayEnemies.push(enemy);
 }
 
+function getClosestEnemy() {
+    const arraySortedClosestEnemy = arrayEnemies.map((enemy) => {
+        enemy.distance = calcDistance(enemy, {position: {x: center.x, y: center.y}});
+        return enemy;
+    }).sort((a, b) => {
+        return a.distance - b.distance
+    });
+
+    return arraySortedClosestEnemy[0];
+}
+
 export {
     isInShottingRange,
     calcDistance,
     clearCanvas,
     createEnemy,
+    getClosestEnemy,
 }

@@ -1,6 +1,6 @@
 import { config, center, TURRET } from "./config/config.js";
 import { canvas, ctx, arrayEnemies, arrayProjectiles } from "./helpers/state.js";
-import { isInShottingRange, calcDistance, clearCanvas, createEnemy } from "./helpers/helpers.js";
+import { isInShottingRange, calcDistance, clearCanvas, createEnemy, getClosestEnemy } from "./helpers/helpers.js";
 import { Turret } from "./classes/Turret.js";
 import { Projectile } from "./classes/Projectile.js";
 
@@ -43,16 +43,6 @@ function animate() {
 
         const distance = calcDistance(enemy, player);
 
-        // Take a look on how to target an enemy to aim the closest one
-        if (isInShottingRange(enemy.position, center) && !player.isShotting) {
-            arrayProjectiles.push(
-                new Projectile({
-                    position: {...center},
-                    target: enemy,
-                })
-            );
-            player.isShotting = true;
-        }
         // Player has been hit
         if (distance < enemy.size) {
             player.health -= enemy.power;
@@ -63,6 +53,18 @@ function animate() {
                 cancelAnimationFrame(animationId);
             }
         }
+    }
+
+    // Check enemy to be shot
+    const validEnemy = getClosestEnemy(center);
+    if (validEnemy && isInShottingRange(validEnemy.position, center) && !player.isShotting) {
+        arrayProjectiles.push(
+            new Projectile({
+                position: {...center},
+                target: validEnemy,
+            })
+        );
+        player.isShotting = true;
     }
 
     // Projectiles array
