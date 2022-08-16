@@ -38,6 +38,17 @@ export class Turret {
         ctx.lineWidth = 3;
         ctx.strokeStyle = '#003300';
         ctx.stroke();
+
+        // Build health bar
+        ctx.fillStyle = "red";
+        ctx.fillRect(this.position.x - 35, this.position.y - 45, 75, 10);
+        ctx.fillStyle = "green";
+        ctx.fillRect(
+            this.position.x - 35,
+            this.position.y - 45,
+            (75 * this.health) / 100,
+            10
+        );
     }
 
     update() {
