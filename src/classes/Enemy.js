@@ -12,6 +12,11 @@ export class Enemy {
             y: (this.position.y - center.y) / ENEMY[this.type].SPEED,
         };
 
+        this.center = {
+            x: this.position.x + (this.size / 2),
+            y: this.position.y + (this.size / 2)
+        };
+
         this.health = ENEMY[this.type].HP;
         this.power = ENEMY[this.type].DAMAGE;
 

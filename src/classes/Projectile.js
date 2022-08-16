@@ -8,8 +8,8 @@ export class Projectile {
         this.target = target;
 
         this.speed = {
-            x: (this.position.x - this.target.position.x) / TURRET.ATTACK_SPEED,
-            y: (this.position.y - this.target.position.y) / TURRET.ATTACK_SPEED,
+            x: (this.position.x - this.target.center.x) / TURRET.ATTACK_SPEED,
+            y: (this.position.y - this.target.center.y) / TURRET.ATTACK_SPEED,
         };
     }
 
