@@ -6,13 +6,19 @@ import { Enemy } from "./classes/Enemy.js";
 import { Projectile } from "./classes/Projectile.js";
 
 let player,
-    numWave = 1;
+    numWave = 0;
+
+// Vars to control spawning time and spawningInterval
+let isSpawning = true;
+let intervalSpawingId = '';
 
 function initialize() {
+    // Initialize canvas
     canvas.width = config.CANVAS.WIDTH;
     canvas.height = config.CANVAS.HEIGHT;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
+    // Set center of canvas to draw player
     const centerX = center.x;
     const centerY = center.y;
     const radius = 20;
@@ -22,8 +28,8 @@ function initialize() {
         size: radius
     });
 
-    spawnEnemiesRandomly();
-    
+    // Spawn enemies and begin game
+    spawnEnemiesRandomly();    
     animate();
 }
 
@@ -38,6 +44,7 @@ function animate() {
 
         const distance = calcDistance(enemy, player);
 
+        // Take a look on how to target an enemy to aim the closest one
         if (isInShottingRange(enemy.position, center) && !player.isShotting) {
             arrayProjectiles.push(
                 new Projectile({
@@ -59,6 +66,7 @@ function animate() {
         }
     }
 
+    // Projectiles array
     for (let i = arrayProjectiles.length - 1; i >= 0; i--) {
         const projectile = arrayProjectiles[i];
         projectile.update();
@@ -73,18 +81,22 @@ function animate() {
                 const enemyIndex = arrayEnemies.findIndex(enemy => enemy === target);
                 arrayEnemies.splice(enemyIndex, 1);
                 player.isShotting = false;
+
+                // If there are no more enemies left we need to spawn a new wave
+                if (arrayEnemies.length < 1) {
+                    isSpawning = true;
+                }
             }
-            // console.log(arrayProjectiles);
             arrayProjectiles.splice(i, 1);
-            // console.log(arrayProjectiles);
         }
     };
 
     // End of wave
-    // if (arrayEnemies.length < 1) {
-    //     numWave++;
-    //     spawnEnemiesRandomly();
-    // }
+    if (arrayEnemies.length < 1 && isSpawning) {
+        isSpawning = false;
+        numWave++;
+        spawnEnemiesRandomly();
+    }
 }
 
 function clearCanvas() {
@@ -98,8 +110,14 @@ function spawnEnemiesRandomly() {
     const maxX = center.x + config.MAX_DISTANCE_SPAWN,
         maxY = center.y + config.MAX_DISTANCE_SPAWN;
     
-    for (let i = 0; i < config.ENEMIES_PER_WAVE * numWave; i++) {
-        // setTimeout(() => {
+    let numEnemies = 0;
+
+    intervalSpawingId = setInterval(() => {
+        console.log(numWave);
+        console.log(config.ENEMIES_PER_WAVE * numWave);
+        if (numEnemies < config.ENEMIES_PER_WAVE * numWave) {
+            numEnemies++;
+
             const position = {
                 x: 0,
                 y: 0,
@@ -111,15 +129,18 @@ function spawnEnemiesRandomly() {
             } while (isInShottingRange(position, center));
     
             config.DEBUG && console.log(position);
-    
+            
+            // Think about generating new enemies
             const enemy = new Enemy({
                 position,
                 type: 'REGULAR',
             });
     
             arrayEnemies.push(enemy);
-        // }, 500);
-    }
+        } else {
+            clearInterval(intervalSpawingId);
+        }        
+    }, 1000);
 }
 
 document.addEventListener('DOMContentLoaded', () => initialize());
