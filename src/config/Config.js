@@ -13,6 +13,8 @@ const TURRET = {
     SIZE: 20,
     SHOOTING_RANGE: 175,
     ATTACK_SPEED: 1,
+    BASE_HEALTH: 100,
+    BASE_DAMAGE: 50,
 };
 
 const ENEMY = {
@@ -20,6 +22,7 @@ const ENEMY = {
         SIZE: 15,
         SPEED: 3,
         HP: 10,
+        DAMAGE: 10,
     }
 };
 

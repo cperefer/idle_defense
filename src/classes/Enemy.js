@@ -11,11 +11,16 @@ export class Enemy {
             x: (this.position.x - center.x) / 150,
             y: (this.position.y - center.y) / 150,
         };
-        this.hp = ENEMY[this.type].HP;
+
+        this.health = ENEMY[this.type].HP;
+        this.power = ENEMY[this.type].DAMAGE;
+
         this.velocity = {
             x: 0,
             y: 0,
         };
+
+        this.isTargeted = false;
     }
 
     draw() {

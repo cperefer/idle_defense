@@ -6,6 +6,8 @@ export class Turret {
     constructor({position, size}) {
         this.position = position;
         this.size = size;
+
+        this.health = TURRET.BASE_HEALTH;
         
         this.shottingRange = TURRET.SHOOTING_RANGE;
         this.target = {
@@ -15,6 +17,9 @@ export class Turret {
             },
             hp: 100,
         };
+
+        this.power = TURRET.BASE_DAMAGE;
+        this.isShotting = false;
     }
 
     draw() {
