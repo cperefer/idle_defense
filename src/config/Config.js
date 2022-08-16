@@ -12,7 +12,7 @@ const config = {
 const TURRET = {
     SIZE: 20,
     SHOOTING_RANGE: 175,
-    ATTACK_SPEED: 1,
+    ATTACK_SPEED: 80,
     BASE_HEALTH: 100,
     BASE_DAMAGE: 50,
 };
@@ -20,7 +20,7 @@ const TURRET = {
 const ENEMY = {
     REGULAR: {
         SIZE: 15,
-        SPEED: 3,
+        SPEED: 150,
         HP: 10,
         DAMAGE: 10,
     }

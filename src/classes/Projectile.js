@@ -1,5 +1,5 @@
 import { canvas, ctx } from "../helpers/state.js";
-import { config } from "../config/config.js";
+import { config, TURRET } from "../config/config.js";
 
 
 export class Projectile {
@@ -8,8 +8,8 @@ export class Projectile {
         this.target = target;
 
         this.speed = {
-            x: (this.position.x - this.target.position.x) / 150,
-            y: (this.position.y - this.target.position.y) / 150,
+            x: (this.position.x - this.target.position.x) / TURRET.ATTACK_SPEED,
+            y: (this.position.y - this.target.position.y) / TURRET.ATTACK_SPEED,
         };
     }
 

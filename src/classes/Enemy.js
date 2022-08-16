@@ -8,8 +8,8 @@ export class Enemy {
         this.size = ENEMY[this.type].SIZE;
         // this.speed = ENEMY[this.type].SPEED;
         this.speed = {
-            x: (this.position.x - center.x) / 150,
-            y: (this.position.y - center.y) / 150,
+            x: (this.position.x - center.x) / ENEMY[this.type].SPEED,
+            y: (this.position.y - center.y) / ENEMY[this.type].SPEED,
         };
 
         this.health = ENEMY[this.type].HP;
