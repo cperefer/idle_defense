@@ -20,9 +20,10 @@ function calcDistance(source, destiny) {
     return Math.hypot(xDifference, yDifference);
 }
 
-function createEnemy() {
+function createEnemy(numWave) {
     const maxX = center.x + config.MAX_DISTANCE_SPAWN,
-        maxY = center.y + config.MAX_DISTANCE_SPAWN;
+        maxY = center.y + config.MAX_DISTANCE_SPAWN,
+        speed = 1 + numWave / config.SPEED_FACTOR;
 
     const position = {
         x: 0,
@@ -40,7 +41,9 @@ function createEnemy() {
     const enemy = new Enemy({
         position,
         type: 'REGULAR',
+        speed, 
     });
+
 
     arrayEnemies.push(enemy);
 }

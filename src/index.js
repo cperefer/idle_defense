@@ -106,7 +106,7 @@ function spawnEnemiesRandomly() {
     intervalSpawingId = setInterval(() => {
         if (numEnemies < config.ENEMIES_PER_WAVE * numWave) {
             numEnemies++;
-            createEnemy();
+            createEnemy(numWave);
         } else {
             clearInterval(intervalSpawingId);
         }        

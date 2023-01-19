@@ -7,6 +7,7 @@ const config = {
     ENEMIES_PER_WAVE: 4,
     MIN_DISTANCE_SPAWN: 200,
     MAX_DISTANCE_SPAWN: 500,
+    SPEED_FACTOR: 15,
 };
 
 const TURRET = {
