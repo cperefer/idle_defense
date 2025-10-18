@@ -1,5 +1,9 @@
+import { MainScreen } from "../screens/MainScreen"
+
 export const IdleDefense = () => {
   return (
-    <div>IdleDefense</div>
+    <div>
+      <MainScreen />
+    </div>
   )
 }
